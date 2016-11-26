@@ -1,0 +1,13 @@
+{
+  "name": "turkoptiscript",
+  "description": "Userscript for Turkopticon",
+  "license": "ISC",
+  "devDependencies": {
+    "babel-preset-es2015": "^6.18.0",
+    "gulp": "^3.9.1",
+    "gulp-babel": "^6.1.2",
+    "gulp-rename": "^1.2.2",
+    "gulp-rollup": "^2.5.1",
+    "vinyl-source-stream": "^1.1.0"
+  }
+}
