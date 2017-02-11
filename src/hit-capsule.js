@@ -1,8 +1,10 @@
 import { get } from './utils/index';
 
 export class HITCapsule {
-  constructor(el) {
+  constructor(el, lockup) {
     this.elRef = el;
+    this.attrs   = {};
+    this._lockup = lockup;
   }
 
   init(selector) {
@@ -10,19 +12,21 @@ export class HITCapsule {
     return this;
   }
 
-  extract(attrs, strategy, data) {
-    const { root, leaf } = strategy,
+  inject(data) { this._lockup.inject(data || {}, this.attrs).attach(this.elRef); }
+
+  extract(attrs, env, data) {
+    const { root, leaf } = env,
           method = leaf === 'preview' ? '_extractPreview' : '_extractDefault';
     if (root === 'next')
-      Object.assign(this, attrs.reduce((a, b) => (a[b] = data[b]) && a, {}));
+      Object.assign(this.attrs, attrs.reduce((a, b) => (a[b] = data[b]) && a, {}));
     else
-      attrs.forEach(attr => this[attr] = this[method](attr, strategy));
+      attrs.forEach(attr => this.attrs[attr] = this[method](attr, env));
     return this;
   }
 
-  _extractDefault(attr, strategy) {
-    if (strategy.leaf === 'statusdetail' && attr === 'title')
-      return this._get('statusdetailTitleColumnValue').textContent;
+  _extractDefault(attr, env) {
+    if (env.leaf === 'statusdetail' && attr === 'title')
+      return this._get('.statusdetailTitleColumnValue').textContent;
 
     switch (attr) {
       case 'reward':
@@ -49,7 +53,5 @@ export class HITCapsule {
     }
   }
 
-  _get(selector) {
-    return get(selector, this.elRef);
-  }
+  _get(selector) { return get(selector, this.elRef); }
 }
