@@ -1,6 +1,6 @@
 export class ApiQuery {
   constructor(action, method) {
-    this.URI     = 'http://api.turkopticon.info/' + (action || '');
+    this.URI     = 'https://api.turkopticon.info/' + (action || '');
     this.method  = method || 'GET';
     this.version = '2.0-alpha';
   }
@@ -15,7 +15,7 @@ export class ApiQuery {
       xhr.responseType = 'json';
       xhr.setRequestHeader('Accept', `application/vnd.turkopticon.v${this.version}+json`);
       xhr.send();
-      xhr.onload  = e => accept(e.target.response);
+      xhr.onload = ({ target:{ response } }) => accept(response);
       xhr.onerror = e => reject(e);
     });
   }
