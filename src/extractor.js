@@ -1,4 +1,4 @@
-import { get } from './utils/index';
+import { qs } from './utils/index';
 import { HITCapsule, Lockup } from './index';
 
 export class Extractor {
@@ -12,7 +12,7 @@ export class Extractor {
     this._selector.init(this.env);
 
     const isNext = this.env.root === 'next',
-          model  = isNext ? JSON.parse(get(this._selector.anchor).closest('div').dataset['reactProps']) : null;
+          model = isNext ? JSON.parse(qs(this._selector.anchor).closest('div').dataset['reactProps']) : null;
     this._data   = model ? Extractor.pruneReactModel(model, this.env) : null;
     return this;
   }
@@ -38,13 +38,13 @@ export class Extractor {
   static getEnv() {
     const strat = { root: 'legacy', leaf: 'default' },
           path  = document.location.pathname;
-    if (document.domain.includes('worker') || get('body > .container-fluid'))
+    if (document.domain.includes('worker') || qs('body > .container-fluid'))
       strat.root = 'next';
     if (path.includes('statusdetail'))
       strat.leaf = 'statusdetail';
     else if (/(myhits|tasks)/.test(path))
       strat.leaf = 'queue';
-    else if (get('#theTime'))
+    else if (qs('#theTime'))
       strat.leaf = 'preview';
     return strat;
   }

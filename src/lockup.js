@@ -1,4 +1,4 @@
-import { make, get, format, getAll } from './utils/index'
+import { make, qs, format, qsa } from './utils/index'
 
 export class Lockup {
   constructor(env) {
@@ -11,27 +11,27 @@ export class Lockup {
     const selector = '.to-fc';
 
     if (agg) {
-      [].forEach.call(get(selector, this.clone).children, el => el.classList.toggle('hidden'));
-      get('a.hidden', this.clone).classList.toggle('hidden');
+      [].forEach.call(qs(selector, this.clone).children, el => el.classList.toggle('hidden'));
+      qs('a.hidden', this.clone).classList.toggle('hidden');
       ['all', 'recent'].forEach(range => {
         Object.keys(agg[range]).forEach(attr => {
           const val      = agg[range][attr],
                 crude    = val instanceof Array || attr === 'pending';
-          get(`[data-range=${range}][data-attr=${attr}]`, this.clone)
+          qs(`[data-range=${range}][data-attr=${attr}]`, this.clone)
             .textContent = crude ? format(val) : val
         });
       });
     }
 
-    [].forEach.call(getAll('a', this.clone), el => buildLink(el, k => scrapeData[k]));
-    get('.to-rn', this.clone).textContent = scrapeData.rname;
+    [].forEach.call(qsa('a', this.clone), el => buildLink(el, k => scrapeData[k]));
+    qs('.to-rn', this.clone).textContent = scrapeData.rname;
     return this;
   }
 
   attach(context) {
     const ref = context instanceof HTMLLIElement
-      ? get('span>span', context)
-      : (get('.capsule_field_text', context) || get('a', context));
+      ? qs('span>span', context)
+      : (qs('.capsule_field_text', context) || qs('a', context));
     ref.parentNode.insertBefore(this.clone, ref);
   }
 }

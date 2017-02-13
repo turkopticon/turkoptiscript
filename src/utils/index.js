@@ -1,8 +1,8 @@
-export function get(...args) {
+export function qs(...args) {
   return (args[1] || document).querySelector(args[0]);
 }
 
-export function getAll(...args) {
+export function qsa(...args) {
   return Array.from((args[1] || document).querySelectorAll(args[0]));
 }
 

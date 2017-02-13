@@ -1,4 +1,4 @@
-import { get } from './utils/index';
+import { qs } from './utils/index';
 
 export class HITCapsule {
   constructor(el, lockup) {
@@ -45,13 +45,13 @@ export class HITCapsule {
       case 'reward':
         return this._get('span.reward').textContent.slice(1);
       case 'rid':
-        return get('input[name=requesterId]').value;
+        return qs('input[name=requesterId]').value;
       case 'rname':
-        return get('input[name=prevRequester]').value;
+        return qs('input[name=prevRequester]').value;
       case 'title':
         return this._get('.capsulelink_bold').textContent.trim();
     }
   }
 
-  _get(selector) { return get(selector, this.elRef); }
+  _get(selector) { return qs(selector, this.elRef); }
 }
