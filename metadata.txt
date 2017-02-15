@@ -4,6 +4,7 @@
 // @namespace    https://greasyfork.org/en/users/12709
 // @version      2.0.0
 // @description  Review requesters on Amazon Mechanical Turk
+// @license      ISC
 // @include      https://*.mturk.com/*
 // @exclude      https://www.mturk.com/mturk/findhits?*hit_scraper
 // @grant        none
