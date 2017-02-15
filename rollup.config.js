@@ -1,9 +1,9 @@
+import babel from 'rollup-plugin-babel';
+import babelrc from 'babelrc-rollup';
+
 export default {
-  entry: 'index.js',
-  dest: 'dist/turkopticon.es5.user.js',
-  format: 'iife',
+  entry    : 'index.js',
+  format   : 'iife',
   sourceMap: 'inline',
-  plugins: [
-    babel({ exclude: 'node_modules/**' }),
-  ]
+  plugins  : [babel(babelrc())]
 };
