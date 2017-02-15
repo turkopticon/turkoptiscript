@@ -43,7 +43,7 @@ function createLockup(env) {
     lockup = make('div', { class: 'to-lockup to-abs' }),
     flex   = lockup.appendChild(make('div', { class: 'to-fc' })),
     labels = ['pay rate', 'time pending', 'response', 'recommend', 'tos', 'broken'],
-    attrs  = ['reward', 'pending', 'comm', 'recommend', 'tos', 'broken', 'deceptive'];
+    attrs  = ['reward', 'pending', 'comm', 'recommend', 'tos', 'broken'];
 
   root.appendChild(make('svg', { height: 20, width: 20 }, 'http://www.w3.org/2000/svg'))
       .appendChild(make('path', {
