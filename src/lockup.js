@@ -15,10 +15,10 @@ export class Lockup {
       qs('a.hidden', this.clone).classList.toggle('hidden');
       ['all', 'recent'].forEach(range => {
         Object.keys(agg[range]).forEach(attr => {
-          const val      = agg[range][attr],
-                crude    = val instanceof Array || attr === 'pending';
-          qs(`[data-range=${range}][data-attr=${attr}]`, this.clone)
-            .textContent = crude ? format(val) : val
+          const val = agg[range][attr],
+                sel = `[data-range=${range}][data-attr=${attr}]`;
+
+          qs(sel, this.clone).textContent = format(val, attr)
         });
       });
     }
@@ -36,14 +36,15 @@ export class Lockup {
   }
 }
 
+// should use custom elements which would be much cleaner, but waiting on FF/Edge to implement
 function createLockup(env) {
   const
     pos    = env.root === 'legacy' ? 'to-rel' : 'to-abs',
     root   = make('div', { class: `to-hdi ${pos}` }),
     lockup = make('div', { class: 'to-lockup to-abs' }),
     flex   = lockup.appendChild(make('div', { class: 'to-fc' })),
-    labels = ['pay rate', 'time pending', 'response', 'recommend', 'tos', 'broken'],
-    attrs  = ['reward', 'pending', 'comm', 'recommend', 'tos', 'broken'];
+    labels = ['pay rate', 'time pending', 'response', 'recommend', 'rejected', 'tos', 'broken' ],
+    attrs  = ['reward', 'pending', 'comm', 'recommend', 'rejected', 'tos', 'broken'];
 
   root.appendChild(make('svg', { height: 20, width: 20 }, 'http://www.w3.org/2000/svg'))
       .appendChild(make('path', {
@@ -67,7 +68,7 @@ function createLockup(env) {
     tmp.innerHTML = label + inner.join('');
   });
 
-  tagAttrs = {
+  tagAttrs        = {
     class      : 'hidden',
     'data-rid' : '',
     'data-path': '/requesters',
