@@ -27,7 +27,6 @@ export function format(data, attr) {
     case 'rejected':
       return data[0];
     default:
-      const [x, n] = data;
-      return `${percent(x,n)} of ${n}`
+      return `${percent(data[0],data[1])} of ${data[1]}`
   }
 }
