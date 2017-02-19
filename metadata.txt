@@ -2,8 +2,8 @@
 // @name         turkoptiscript
 // @author       feihtality
 // @namespace    https://greasyfork.org/en/users/12709
-// @version      1.0.0-rc0
-// @description  Review requesters on Amazon Mechanical Turk
+// @version      1.0.0-rc1
+// @description  User script for Turkopticon -- review requesters on Amazon Mechanical Turk
 // @license      ISC
 // @include      https://*.mturk.com/*
 // @exclude      https://www.mturk.com/mturk/findhits?*hit_scraper

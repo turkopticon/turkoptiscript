@@ -2,8 +2,8 @@
 // @name         turkoptiscript
 // @author       feihtality
 // @namespace    https://greasyfork.org/en/users/12709
-// @version      1.0.0-rc0
-// @description  Review requesters on Amazon Mechanical Turk
+// @version      1.0.0-rc1
+// @description  User script for Turkopticon -- review requesters on Amazon Mechanical Turk
 // @license      ISC
 // @include      https://*.mturk.com/*
 // @exclude      https://www.mturk.com/mturk/findhits?*hit_scraper
@@ -26,14 +26,23 @@ function make(tag, attrs = {}, namespace) {
   return el;
 }
 
-function format(response) {
-  const payRate = (pay, time, total) => ((pay / time) * 60 ** 2).toFixed(2),
-        toDays  = (seconds) => (seconds / 86400.0).toFixed(2);
-  return !isNaN(response)
-    ? `${toDays(response)} days`
-    : response.length > 2
-           ? `$${payRate(...response)}/hr`
-           : `${response[0]} of ${response[1]}`
+function format(data, attr) {
+  const payRate = (p, t, total) => t > 0 ? '$' + ((p/t)*60**2).toFixed(2) : '--',
+        toDays  = (t) => t > 0 ? (t/86400.0).toFixed(2) : '--',
+        percent = (x,n) => n > 0 ? Math.round(100*x/n) + '%' : '--';
+
+  switch (attr) {
+    case 'pending':
+      return `${toDays(data)} days`;
+    case 'reward':
+      return `${payRate(...data)}/hr`;
+    case 'tos':
+    case 'broken':
+    case 'rejected':
+      return data[0];
+    default:
+      return `${percent(data[0],data[1])} of ${data[1]}`
+  }
 }
 
 class HITCapsule {
@@ -205,10 +214,10 @@ class Lockup {
       qs('a.hidden', this.clone).classList.toggle('hidden');
       ['all', 'recent'].forEach(range => {
         Object.keys(agg[range]).forEach(attr => {
-          const val      = agg[range][attr],
-                crude    = val instanceof Array || attr === 'pending';
-          qs(`[data-range=${range}][data-attr=${attr}]`, this.clone)
-            .textContent = crude ? format(val) : val;
+          const val = agg[range][attr],
+                sel = `[data-range=${range}][data-attr=${attr}]`;
+
+          qs(sel, this.clone).textContent = format(val, attr);
         });
       });
     }
@@ -226,14 +235,15 @@ class Lockup {
   }
 }
 
+// should use custom elements which would be much cleaner, but waiting on FF/Edge to implement
 function createLockup(env) {
   const
     pos    = env.root === 'legacy' ? 'to-rel' : 'to-abs',
     root   = make('div', { class: `to-hdi ${pos}` }),
     lockup = make('div', { class: 'to-lockup to-abs' }),
     flex   = lockup.appendChild(make('div', { class: 'to-fc' })),
-    labels = ['pay rate', 'time pending', 'response', 'recommend', 'tos', 'broken'],
-    attrs  = ['reward', 'pending', 'comm', 'recommend', 'tos', 'broken'];
+    labels = ['pay rate', 'time pending', 'response', 'recommend', 'rejected', 'tos', 'broken' ],
+    attrs  = ['reward', 'pending', 'comm', 'recommend', 'rejected', 'tos', 'broken'];
 
   root.appendChild(make('svg', { height: 20, width: 20 }, 'http://www.w3.org/2000/svg'))
       .appendChild(make('path', {
@@ -257,7 +267,7 @@ function createLockup(env) {
     tmp.innerHTML = label + inner.join('');
   });
 
-  tagAttrs = {
+  tagAttrs        = {
     class      : 'hidden',
     'data-rid' : '',
     'data-path': '/requesters',
@@ -297,7 +307,7 @@ class ApiQuery {
   constructor(action, method) {
     this.URI     = 'https://api.turkopticon.info/' + (action || '');
     this.method  = method || 'GET';
-    this.version = '2.0-alpha';
+    this.version = '2';
   }
 
   send(params) {
