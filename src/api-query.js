@@ -2,7 +2,7 @@ export class ApiQuery {
   constructor(action, method) {
     this.URI     = 'https://api.turkopticon.info/' + (action || '');
     this.method  = method || 'GET';
-    this.version = '2.0-alpha';
+    this.version = '2';
   }
 
   send(params) {
