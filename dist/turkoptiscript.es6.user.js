@@ -2,7 +2,7 @@
 // @name         turkoptiscript
 // @author       feihtality
 // @namespace    https://greasyfork.org/en/users/12709
-// @version      1.0.0-rc1
+// @version      1.0.0-rc2
 // @description  User script for Turkopticon -- review requesters on Amazon Mechanical Turk
 // @license      ISC
 // @include      https://*.mturk.com/*
@@ -78,7 +78,7 @@ class HITCapsule {
         return this._get('span.reward').textContent.slice(1);
       case 'rid':
         return this._get('[href*="requesterId"]').href.match(/requesterId=([^=&]+)/)[1];
-      case 'rname':
+      case 'name':
         return this._get('.requesterIdentity').textContent;
       case 'title':
         return this._get('a.capsulelink').textContent.trim();
@@ -91,7 +91,7 @@ class HITCapsule {
         return this._get('span.reward').textContent.slice(1);
       case 'rid':
         return qs('input[name=requesterId]').value;
-      case 'rname':
+      case 'name':
         return qs('input[name=prevRequester]').value;
       case 'title':
         return this._get('.capsulelink_bold').textContent.trim();
@@ -123,7 +123,7 @@ class Extractor$$1 {
       collection = fn(this._selector.anchor);
     else throw new TypeError('expected a function');
 
-    const keys      = 'title rname rid reward'.split(' ');
+    const keys      = 'title name rid reward'.split(' ');
     this.collection = collection
       .map((c, i) => {
         const data = this._data ? this._data[i] : null;
@@ -153,9 +153,9 @@ class Extractor$$1 {
     return model['bodyData'].map(d => {
       const src = env.leaf === 'queue' ? d['project'] : d;
 
-      const { monetary_reward: { amount_in_dollars:reward }, requester_id:rid, title, requester_name:rname } = src;
+      const { monetary_reward: { amount_in_dollars:reward }, requester_id:rid, title, requester_name:name } = src;
 
-      return { rid: rid, rname: rname, title: title, reward: reward };
+      return { rid: rid, name: name, title: title, reward: reward };
     });
   }
 
@@ -223,7 +223,7 @@ class Lockup {
     }
 
     [].forEach.call(qsa('a', this.clone), el => buildLink(el, k => scrapeData[k]));
-    qs('.to-rn', this.clone).textContent = scrapeData.rname;
+    qs('.to-rn', this.clone).textContent = scrapeData.name;
     return this;
   }
 
@@ -278,7 +278,7 @@ function createLockup(env) {
 
   tagAttrs        = {
     'data-rid'   : '',
-    'data-rname' : '',
+    'data-name' : '',
     'data-title' : '',
     'data-reward': '',
     'data-path'  : '/reviews/new',
