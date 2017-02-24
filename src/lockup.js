@@ -24,7 +24,7 @@ export class Lockup {
     }
 
     [].forEach.call(qsa('a', this.clone), el => buildLink(el, k => scrapeData[k]));
-    qs('.to-rn', this.clone).textContent = scrapeData.rname;
+    qs('.to-rn', this.clone).textContent = scrapeData.name;
     return this;
   }
 
@@ -79,7 +79,7 @@ function createLockup(env) {
 
   tagAttrs        = {
     'data-rid'   : '',
-    'data-rname' : '',
+    'data-name' : '',
     'data-title' : '',
     'data-reward': '',
     'data-path'  : '/reviews/new',

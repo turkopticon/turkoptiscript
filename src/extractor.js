@@ -23,7 +23,7 @@ export class Extractor {
       collection = fn(this._selector.anchor);
     else throw new TypeError('expected a function');
 
-    const keys      = 'title rname rid reward'.split(' ');
+    const keys      = 'title name rid reward'.split(' ');
     this.collection = collection
       .map((c, i) => {
         const data = this._data ? this._data[i] : null;
@@ -53,9 +53,9 @@ export class Extractor {
     return model['bodyData'].map(d => {
       const src = env.leaf === 'queue' ? d['project'] : d;
 
-      const { monetary_reward: { amount_in_dollars:reward }, requester_id:rid, title, requester_name:rname } = src;
+      const { monetary_reward: { amount_in_dollars:reward }, requester_id:rid, title, requester_name:name } = src;
 
-      return { rid: rid, rname: rname, title: title, reward: reward };
+      return { rid: rid, name: name, title: title, reward: reward };
     });
   }
 

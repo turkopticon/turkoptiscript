@@ -33,7 +33,7 @@ export class HITCapsule {
         return this._get('span.reward').textContent.slice(1);
       case 'rid':
         return this._get('[href*="requesterId"]').href.match(/requesterId=([^=&]+)/)[1];
-      case 'rname':
+      case 'name':
         return this._get('.requesterIdentity').textContent;
       case 'title':
         return this._get('a.capsulelink').textContent.trim();
@@ -46,7 +46,7 @@ export class HITCapsule {
         return this._get('span.reward').textContent.slice(1);
       case 'rid':
         return qs('input[name=requesterId]').value;
-      case 'rname':
+      case 'name':
         return qs('input[name=prevRequester]').value;
       case 'title':
         return this._get('.capsulelink_bold').textContent.trim();
