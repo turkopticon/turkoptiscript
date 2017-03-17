@@ -1,9 +1,9 @@
-export function qs(...args) {
-  return (args[1] || document).querySelector(args[0]);
+export function qs(selector, ctx) {
+  return (ctx || document).querySelector(selector);
 }
 
-export function qsa(...args) {
-  return Array.from((args[1] || document).querySelectorAll(args[0]));
+export function qsa(selector, ctx) {
+  return Array.from((ctx || document).querySelectorAll(selector));
 }
 
 export function make(tag, attrs = {}, namespace) {
