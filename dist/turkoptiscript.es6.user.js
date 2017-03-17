@@ -2,7 +2,7 @@
 // @name         turkoptiscript
 // @author       feihtality
 // @namespace    https://greasyfork.org/en/users/12709
-// @version      1.0.0-rc2
+// @version      1.0.0-rc3
 // @description  User script for Turkopticon -- review requesters on Amazon Mechanical Turk
 // @license      ISC
 // @include      https://*.mturk.com/*
@@ -12,12 +12,12 @@
 (function () {
 'use strict';
 
-function qs(...args) {
-  return (args[1] || document).querySelector(args[0]);
+function qs(selector, ctx) {
+  return (ctx || document).querySelector(selector);
 }
 
-function qsa(...args) {
-  return Array.from((args[1] || document).querySelectorAll(args[0]));
+function qsa(selector, ctx) {
+  return Array.from((ctx || document).querySelectorAll(selector));
 }
 
 function make(tag, attrs = {}, namespace) {
