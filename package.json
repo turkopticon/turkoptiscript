@@ -3,9 +3,9 @@
   "description": "Userscript for Turkopticon",
   "license": "ISC",
   "devDependencies": {
-    "babel-preset-es2015-rollup": "^1.2.0",
-    "babelrc-rollup": "^3.0.0",
-    "rollup": "^0.36.4",
-    "rollup-plugin-babel": "^2.6.1"
+    "babel-cli": "^6.24.0",
+    "babel-preset-latest": "^6.24.0",
+    "hogan.js": "^3.0.2",
+    "rollup": "^0.36.4"
   }
 }
