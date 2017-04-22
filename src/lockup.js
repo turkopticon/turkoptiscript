@@ -99,7 +99,7 @@ function buildLink(el, cb) {
   if (el.dataset.path === '/requesters')
     el.href = href + '/' + ds.map(k => el.dataset[k]).join('/');
   else
-    el.href = href + '?' + ds.map(k => `${k}=${el.dataset[k]}`).join('&');
+    el.href = href + '?' + ds.map(k => `${k}=${window.encodeURIComponent(el.dataset[k])}`).join('&');
 
   return el;
 }
