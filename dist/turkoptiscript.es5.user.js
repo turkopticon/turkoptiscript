@@ -2,7 +2,7 @@
 // @name         turkoptiscript-es5
 // @author       feihtality
 // @namespace    https://greasyfork.org/en/users/12709
-// @version      1.0.0-rc3
+// @version      1.0.0-rc4
 // @description  User script for Turkopticon -- review requesters on Amazon Mechanical Turk
 // @license      ISC
 // @include      https://*.mturk.com/*
@@ -388,7 +388,7 @@
     if (el.dataset.path === '/requesters') el.href = href + '/' + ds.map(function (k) {
       return el.dataset[k];
     }).join('/');else el.href = href + '?' + ds.map(function (k) {
-      return k + '=' + el.dataset[k];
+      return k + '=' + window.encodeURIComponent(el.dataset[k]);
     }).join('&');
 
     return el;
